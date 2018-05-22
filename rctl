@@ -1,0 +1,204 @@
+#!/bin/bash
+
+# Move to dir if run from system folder
+#RPATH=/Users/rohancarter/Git/RecipeTextPy
+RPATH=''
+if [[ uname == "Darwin" ]]; then
+  RPATH="$(dirname "$(grealpath "$0")")"
+else
+  RPATH="$(dirname "$(realpath "$0")")"
+fi
+echo $RPATH
+cd $RPATH
+
+PWD=$(pwd)
+CURRENT_RECIPE=''
+CURRENT_RECIPE_FN=''
+RECIPE_SRC_DIR='recipes'
+
+new() {
+  DIR=$1
+  if [ -d "recipes/$DIR" ]; then
+    echo "Recipe already exists."
+  else
+    echo "Creating new recipe: ${DIR}..."
+    RECIPE_DIR=${PWD}/recipes/${DIR}
+    mkdir ${RECIPE_DIR}
+    mkdir ${RECIPE_DIR}/ingredients
+    mkdir ${RECIPE_DIR}/utensils
+    mkdir ${RECIPE_DIR}/steps
+    touch ${RECIPE_DIR}/ingredients/01
+    touch ${RECIPE_DIR}/utensils/01
+    touch ${RECIPE_DIR}/steps/01
+    echo "Recipe files created."
+  fi
+}
+
+quit() {
+  echo "Exiting RCtrl."
+  exit 1
+}
+
+help() {
+  cat README.md
+}
+
+splash() {
+  echo "-------------------------------------------"
+  echo "-- ReciPZ Control Command Line Interface --"
+  echo "-------------------------------------------"
+}
+
+# RCtrl Main Menu Method
+main_menu() {
+  options=("New" "Edit" "Compile" "Help" "Quit")
+  echo "Select an option."
+  PS3=": "
+  select opt in "${options[@]}"; do
+    case "$opt" in
+      "New") new_recipe;;
+      "Edit") select_recipe;;
+      "Compile")
+        compile
+        quit
+      ;;
+      "Help") help;;
+      "Quit") quit;;
+      *)
+        echo "Invalid option. Try again."
+        continue
+      ;;
+    esac
+  done
+}
+
+# 1. New
+new_recipe() {
+  echo
+  echo "-- New Recipe --"
+  echo "Name the new recipe:"
+  read recipe_name
+  recipe_nm=`echo "$recipe_name" | sed 's/ /-/g'`
+  new $recipe_nm
+  main_menu
+}
+
+# 2. Edit
+select_recipe() {
+  echo
+  echo "-- Edit Recipe --"
+  echo "Select a recipe."
+  PS3=": "
+  select opt in $(ls "$RECIPE_SRC_DIR") "Back" "Quit"; do
+    if [[ $opt == "Quit" ]]; then
+      quit
+    elif [[ $opt == "Back" ]]; then
+      break
+    else
+      echo "Setting current recipe to "$opt
+      CURRENT_RECIPE=$opt
+      CURRENT_RECIPE_FN="${RECIPE_SRC_DIR}/${opt}"
+    fi
+    break
+  done
+  recipe_menu
+}
+
+recipe_menu() {
+  echo
+  echo "-- Edit ${CURRENT_RECIPE} --"
+  echo "Select an element:"
+  PS3=": "
+  options=("Ingredients" "Utensils" "Steps" "Back" "Quit")
+  select opt in "${options[@]}"; do
+    case "$opt" in
+      "Ingredients")
+        select_file_from_dir "ingredients";;
+      "Utensils")
+        select_file_from_dir "utensils";;
+      "Steps")
+        select_file_from_dir "steps";;
+      "Back") select_recipe;;
+      "Quit") quit;;
+      *)
+        echo "Invalid option. Try again."
+        continue
+        ;;
+    esac 
+  done
+}
+
+select_file_from_dir() {
+  DIR=$1
+  echo
+  echo "-- Edit $1 --"
+  echo "Select a file."
+  PS3=": "
+  select opt in $(ls "${CURRENT_RECIPE_FN}/${DIR}") "Back" "Quit"; do
+    if [[ $opt == "Quit" ]]; then
+      quit
+    elif [[ $opt == "Back" ]]; then
+      break
+    else
+      nano "${CURRENT_RECIPE_FN}/${DIR}/${opt}"  
+    fi
+    break
+  done
+}
+
+delete_file() {
+  rm $1
+}
+
+rename_file() {
+  read filename
+  # Should use directories.
+  mv $1 $filename
+}
+
+edit_file() {
+  nano "${CURRENT_RECIPE_FN}/${DIR}/${opt}"  
+}
+
+select_component() {
+  options=("New" "Edit" "Compile" "Help" "Quit")
+  echo "Select an option."
+  PS3=": "
+  select opt in "${options[@]}"; do
+    case "$opt" in
+      "New") new_recipe;;
+      "Edit") select_recipe;;
+      "Compile") compile;;
+      "Help") echo "You picked help";;
+      "Quit")
+        echo "Goodbye."
+        return 0;;
+      *)
+        echo "Invalid option. Try again."
+        continue
+      ;;
+    esac
+  done
+}
+
+compile() {
+  echo "Compiling Recipes..."
+  python compile.py
+  echo "Done."
+}
+
+case "$1" in
+c)
+  compile
+  ;;
+n)
+  new
+  ;;
+e)
+  select_recipe
+  ;;
+*)
+  splash
+  main_menu
+  ;;
+esac

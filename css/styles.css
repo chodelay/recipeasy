@@ -1,0 +1,170 @@
+body {
+  background-color: #222222;
+  color: #EEE;
+  font-family: 'Oxygen', sans-serif;
+}
+
+li {
+  font-size: 1em;
+}
+
+.container {
+  padding: 1em 0px 0px 0px;
+}
+
+img {
+
+}
+
+.toggle {
+  color: white;
+  background-color: #633;
+  height: 24px;
+  margin: 5px;
+  width: 100%;
+}
+
+.col-xs-6, .col-md-6, .col-sm-12, .col-sm-4, .col-md-4 {
+  padding: 5px;
+}
+
+h1 {
+  margin: 0px;
+  font-size: 2.2em;
+}
+
+h2 {
+  margin-bottom: 10px;
+  margin-top: 0px;
+  font-size: 2em;
+}
+
+h3 {
+  margin-bottom: 15px;
+  margin-top: 2px;
+  font-size: 1.2em important!;
+}
+
+.btn {
+  margin: 5px;
+}
+
+table {
+  width: 100%;
+  padding: 1em 0px 1em 0px;
+}
+
+td {
+  margin: 0px;
+  padding: 8px;
+}
+
+li {
+  margin: 0px;
+  padding: 2px;
+}
+
+/* Extra stylings */
+.heat-text {
+  font-weight: 800;
+  color: #FCC;
+}
+
+.time-text {
+  font-weight: 800;
+  color: #CFC;
+}
+
+.timer_active {
+  color: #A0F0A0;
+  padding: 0px 20px;
+}
+
+.timer_inactive {
+  color: #FFC0C0;
+  padding: 0px 20px;
+
+}
+
+td.amount-text {
+  width: 20%;
+  background-color: #433;
+  border: 1px #333 solid;
+}
+
+td.item-text {
+  width: 45%;
+  background-color: #222;
+  border: 1px #333 solid;
+}
+
+td.item-marked {
+  background-color: #A0C0A0;
+  color: #131313;
+}
+
+td.item-complete {
+  background-color: #505050;
+  color: #DDD;
+}
+
+.step-marked, li.step-marked>span {
+  color: #888;
+}
+
+h3.step-marked {
+  color: #888;
+}
+
+td.note-text {
+  width: 35%;
+  background-color: #322;
+  border: 1px #333 solid;
+}
+
+.recipe-title-container {
+  align-content: center;
+}
+
+.recipe-title {
+  padding: 16px;
+  color: #FFF;
+  background-color: #322;
+  border: 1px #DDD solid;
+}
+
+.recipe-link {
+  font-size: 1.5em;
+  color: white;
+}
+
+.recipe-link:hover {
+  color: white;
+}
+
+.recipe-link-col {
+  padding: 30px;
+}
+
+#ingredient-row {
+  background-color: #201A1A;
+  padding: 10px;
+  border: grey 1px solid;
+}
+
+#utensils-row {
+  background-color: #201A1A;
+  padding: 10px;
+  border: grey 1px solid;
+}
+
+#steps-row {
+  background-color: #201A1A;
+  padding: 10px;
+  border: grey 1px solid;
+}
+
+.btn {
+  background-color: #503030;
+  color: #EEE;
+}
