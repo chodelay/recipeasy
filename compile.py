@@ -187,7 +187,7 @@ def stepsHTML(recipeName, hasContract):
       html += '<ul>'
       for line in f:
         # Add time spans
-        print line
+        # print line
         #print TIME_REGEX
         line = re.sub(TIME_REGEX, '<span class="time-text">\\1</span>', line)
 
@@ -229,7 +229,7 @@ def linkHTML():
     html += '</div><div class="col-md-12">'
     html += '<img src="recipes/' + folder + '/img.png" alt="' + linktitle + '" height="100", width="100"></img>'
     html += '</div></div></div></div>'
-    print 'Building ', folder
+    # print 'Building ', folder
     buildRecipe(folder)
   html += '</div></div>'
   return html
